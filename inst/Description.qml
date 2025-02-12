@@ -3,9 +3,9 @@ import JASP.Module	1.0
 
 Description
 {
-	name		: "jaspModule"
-	title		: qsTr("Jasp Module")
-	description	: qsTr("Examples for module builders")
+	name		: "jaspKinematics"
+	title		: qsTr("Kinematics")
+	description	: qsTr("Movement analysis with JASP")
 	version		: "0.1"
 	author		: "JASP Team"
 	maintainer	: "JASP Team <info@jasp-stats.org>"
