@@ -11,7 +11,7 @@ Description
 	maintainer	: "JASP Team <info@jasp-stats.org>"
 	website		: "https://jasp-stats.org"
 	license		: "GPL (>= 2)"
-	icon        : "exampleIcon.png" // Located in /inst/icons/
+	icon        : "icon.svg" // Located in /inst/icons/
 	preloadData: true
 	requiresData: true
 
