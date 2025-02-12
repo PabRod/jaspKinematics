@@ -32,9 +32,9 @@ Form
   VariablesForm
   {
     AvailableVariablesList { name: "allVariables" }
-    AssignedVariablesList  { name: "ts"; label: qsTr("Times (t)"); singleVariable: true; allowedColumns: ["scale"] }
-    AssignedVariablesList  { name: "xs"; label: qsTr("Horizontal positions (x)"); singleVariable: true; allowedColumns: ["scale"] }
-    AssignedVariablesList  { name: "ys"; label: qsTr("Vertical positions (y)"); singleVariable: true; allowedColumns: ["scale"] }
+    AssignedVariablesList  { name: "t"; label: qsTr("Times (t)"); singleVariable: true; allowedColumns: ["scale"] }
+    AssignedVariablesList  { name: "x"; label: qsTr("Horizontal positions (x)"); singleVariable: true; allowedColumns: ["scale"] }
+    AssignedVariablesList  { name: "y"; label: qsTr("Vertical positions (y)"); singleVariable: true; allowedColumns: ["scale"] }
   }
 
 }

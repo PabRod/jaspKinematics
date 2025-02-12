@@ -19,14 +19,29 @@ ProcessData <- function(jaspResults, dataset, options) {
 }
 
 ProcessTable <- function(jaspResults, dataset, options) {
-  # Prints the inputs as a table
+  # Extends the input with kinematical information
   stats <- createJaspTable(gettext("Some descriptives"))
 
-  stats$addColumnInfo(name = "times")
-  stats$addColumnInfo(name = "xs")
+  ## Show the input as a table
+  stats$addColumnInfo(name = "t")
+  stats$addColumnInfo(name = "x")
+  stats$addColumnInfo(name = "y")
 
-  stats[["times"]] <- dataset[, options$ts]
-  stats[["xs"]] <- dataset[, options$xs]
+  stats[["t"]] <- dataset[, options$t]
+  stats[["x"]] <- dataset[, options$x]
+  stats[["y"]] <- dataset[, options$y]
+
+  stats$addColumnInfo(name = "vx")
+  stats$addColumnInfo(name = "vy")
+
+  ## Use kinematics to calculate speeds
+  speeds <- kinematics::speed(dataset[, options$t],
+                              dataset[, options$x],
+                              dataset[, options$y])
+
+  ## Append speeds to the table
+  stats[["vx"]] <- speeds$vx
+  stats[["vy"]] <- speeds$vy
 
   jaspResults[["stats"]] <- stats
 
