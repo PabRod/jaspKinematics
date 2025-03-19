@@ -79,5 +79,7 @@ ProcessTable <- function(jaspResults, dataset, options) {
 
   jaspResults[["stats"]] <- stats
 
+  jaspResults$addCitation("Results table created using kinematics. (https://github.com/PabRod/kinematics)")
+
   return()
 }
