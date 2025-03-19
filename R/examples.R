@@ -11,70 +11,69 @@ ProcessTable <- function(jaspResults, dataset, options) {
   stats[["x"]] <- dataset[, options$x]
   stats[["y"]] <- dataset[, options$y]
 
+  ## All functions in kinematics have the very same arguments.
+  ## Let's collect them on a list:
+  args <- list(
+    dataset[, options$t],
+    dataset[, options$x],
+    dataset[, options$y]
+  )
+  ## So we can pass them to the functions using the one-liner
+  ## do.call(<function>, args)
+
   # Speeds
   if (options$doSpeeds) {
+    ## Use kinematics to calculate speeds
+    speeds <- do.call(kinematics::speed, args)
+
+    ## Append the output to the table in the desired format
     if (options$speedsAsVectors) {
           stats$addColumnInfo(name = "vx") # TODO: too many output decimals
           stats$addColumnInfo(name = "vy")
 
-          ## Use kinematics to calculate speeds
-          speeds <- kinematics::speed(
-            dataset[, options$t],
-            dataset[, options$x],
-            dataset[, options$y]
-          )
-
-          ## Append speeds to the table
           stats[["vx"]] <- speeds$vx
           stats[["vy"]] <- speeds$vy
     }
+
     if(options$speedsAsScalars) {
       stats$addColumnInfo(name = "v")
-      speeds <- kinematics::speed(dataset[, options$t],
-                                  dataset[, options$x],
-                                  dataset[, options$y]
-      )
       stats[["v"]] <- sqrt(speeds$vx^2 + speeds$vy^2)
     }
+
   }
 
   # Accelerations
   if (options$doAccels) {
+    ## Use kinematics to calculate accelerations
+    accels <- do.call(kinematics::accel, args)
+    
+    ## Append the output to the table in the desired format
     if(options$accelsAsVectors) {
       stats$addColumnInfo(name = "ax")
       stats$addColumnInfo(name = "ay")
 
-      ## Use kinematics to calculate accelerations
-      accels <- kinematics::accel(dataset[, options$t],
-                                  dataset[, options$x],
-                                  dataset[, options$y])
-
-      ## Append accelerations to the table
       stats[["ax"]] <- accels$ax
       stats[["ay"]] <- accels$ay
     }
     if(options$accelsAsScalars) {
       stats$addColumnInfo(name = "a")
-      accels <- kinematics::accel(dataset[, options$t],
-                                  dataset[, options$x],
-                                  dataset[, options$y])
       stats[["a"]] <- sqrt(accels$ax^2 + accels$ay^2)
     }
   }
 
   # Curvature
   if (options$doCurvatures) {
+    ## Use kinematics to calculate curvatures
+    curvs <- do.call(kinematics::curvature, args)
+
+    ## Append accelerations to the table
     if (options$asCurvature) {
       stats$addColumnInfo(name = "curvature")
-      stats[["curvature"]] <- kinematics::curvature(dataset[, options$t],
-                                                    dataset[, options$x],
-                                                    dataset[, options$y])
+      stats[["curvature"]] <- curvs
     }
     if (options$asRadius) {
       stats$addColumnInfo(name = "curvature_radius")
-      stats[["curvature_radius"]] <- kinematics::curvature_radius(dataset[, options$t],
-                                                                  dataset[, options$x],
-                                                                  dataset[, options$y])
+      stats[["curvature_radius"]] <- 1 / curvs
     }
   }
 
