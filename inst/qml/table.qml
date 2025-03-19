@@ -69,4 +69,13 @@ Form
     CheckBox { name: "asRadius";	  label: qsTr("As curvature radius") ; checked: false }
   }
 
+	IntegerField
+	{
+		name: "sf"
+		label: qsTr("Significant figures")
+
+		min: 1
+		defaultValue: 3
+	}
+
 }

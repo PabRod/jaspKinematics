@@ -21,6 +21,10 @@ ProcessTable <- function(jaspResults, dataset, options) {
   ## So we can pass them to the functions using the one-liner
   ## do.call(<function>, args)
 
+  ## The user can input the number of significant figures to show
+  ## this only has aesthetic effects and doesn't affect the calculations
+  fmt <- paste("sf:", options$sf, sep = "")
+
   # Speeds
   if (options$doSpeeds) {
     ## Use kinematics to calculate speeds
@@ -28,8 +32,8 @@ ProcessTable <- function(jaspResults, dataset, options) {
 
     ## Append the output to the table in the desired format
     if (options$speedsAsVectors) {
-          stats$addColumnInfo(name = "vx") # TODO: too many output decimals
-          stats$addColumnInfo(name = "vy")
+          stats$addColumnInfo(name = "vx")
+          stats$addColumnInfo(name = "vy", format = fmt)
 
           stats[["vx"]] <- speeds$vx
           stats[["vy"]] <- speeds$vy
