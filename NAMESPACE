@@ -1,5 +1,2 @@
 import(jaspBase)
-export(AddOne)
-export(ProcessData)
 export(ProcessTable)
-export(Parabola)

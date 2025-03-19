@@ -23,37 +23,9 @@ Description
 
 	Analysis
 	{
-	  title: "Add one"      // Title for window
-	  menu: "Add one"       // Title for ribbon
-	  func: "AddOne"        // Function to be called
-      qml: "integer.qml"    // Design input window
-	}
-
-	Analysis
-	{
-	  title: "Load data"
-	  menu: "Load data"
-	  func: "ProcessData"
-	  qml: "data.qml"
-	}
-
-	Analysis
-	{
 	  title: "Tabular results"
 	  menu: "Tabular results"
 	  func: "ProcessTable"
 	  qml: "table.qml"
-	}
-
-	GroupTitle
-	{
-		title:	qsTr("Plotting")
-	}
-
-	Analysis
-	{
-	  title: "Plot a parabola"
-	  func: "Parabola"
-	  qml: "parabola.qml"
 	}
 }
