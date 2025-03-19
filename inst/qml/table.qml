@@ -26,7 +26,7 @@ Form
 
   Text
   {
-      text: "This example shows how to load a dataset and output it as a table"
+      text: "Add your times and positions below"
   }
 
   VariablesForm
@@ -35,6 +35,38 @@ Form
     AssignedVariablesList  { name: "t"; label: qsTr("Times (t)"); singleVariable: true; allowedColumns: ["scale"] }
     AssignedVariablesList  { name: "x"; label: qsTr("Horizontal positions (x)"); singleVariable: true; allowedColumns: ["scale"] }
     AssignedVariablesList  { name: "y"; label: qsTr("Vertical positions (y)"); singleVariable: true; allowedColumns: ["scale"] }
+  }
+
+  Text{text: "Append the desired dynamical variables"}
+
+  CheckBox 
+  { 
+    name: "doSpeeds"
+    label: qsTr("Speeds")
+    checked: true
+    columns: 2
+    CheckBox { name: "speedsAsVectors"; label: qsTr("Directional speed") ; checked: true }
+    CheckBox { name: "speedsAsScalars"; label: qsTr("Absolute speed") ; checked: false }
+  }
+
+  CheckBox 
+  { 
+    name: "doAccels"
+    label: qsTr("Accelerations")
+    checked: false 
+    columns: 2
+    CheckBox { name: "accelsAsVectors"; label: qsTr("Directional acceleration") ; checked: true }
+    CheckBox { name: "accelsAsScalars"; label: qsTr("Absolute acceleration") ; checked: false }
+  }
+
+  CheckBox 
+  {
+    name: "doCurvatures"
+    label: qsTr("Curvatures")
+    checked: false
+    columns: 2
+    CheckBox { name: "asCurvature"; label: qsTr("As curvature")           ; checked: true }
+    CheckBox { name: "asRadius";	  label: qsTr("As curvature radius") ; checked: false }
   }
 
 }

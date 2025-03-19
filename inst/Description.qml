@@ -23,8 +23,8 @@ Description
 
 	Analysis
 	{
-	  title: "Tabular results"
-	  menu: "Tabular results"
+	  title: "Extract kinematic variables"
+	  menu: "Extract kinematic variables"
 	  func: "ProcessTable"
 	  qml: "table.qml"
 	}
