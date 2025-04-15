@@ -1,5 +1,11 @@
 ProcessTable <- function(jaspResults, dataset, options) {
-  # Extends the input with kinematical information
+  # Only proceed when we have all the information we need
+  # This avoids showing an ugly error message
+  ready <- TRUE #TODO: write the logic to make sure 
+  #t, x and y have been provided
+  if (!ready) return() # Continue only if ready
+
+  # Extend the input with kinematical information
   stats <- createJaspTable(gettext("Extended kinematics table"))
 
   # Show the input as a table
@@ -82,4 +88,5 @@ ProcessTable <- function(jaspResults, dataset, options) {
   jaspResults$addCitation("Results table created using kinematics. (https://github.com/PabRod/kinematics)")
 
   return()
+
 }
