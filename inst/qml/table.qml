@@ -45,18 +45,18 @@ Form
     label: qsTr("Speeds")
     checked: true
     columns: 2
-    CheckBox { name: "speedsAsVectors"; label: qsTr("Directional speed") ; checked: true }
-    CheckBox { name: "speedsAsScalars"; label: qsTr("Absolute speed") ; checked: false }
+    CheckBox { name: "speedsAsVectors"; label: qsTr("Directional speed") ; checked: false }
+    CheckBox { name: "speedsAsScalars"; label: qsTr("Absolute speed") ; checked: true }
   }
 
   CheckBox 
   { 
     name: "doAccels"
     label: qsTr("Accelerations")
-    checked: false 
+    checked: true 
     columns: 2
-    CheckBox { name: "accelsAsVectors"; label: qsTr("Directional acceleration") ; checked: true }
-    CheckBox { name: "accelsAsScalars"; label: qsTr("Absolute acceleration") ; checked: false }
+    CheckBox { name: "accelsAsVectors"; label: qsTr("Directional acceleration") ; checked: false }
+    CheckBox { name: "accelsAsScalars"; label: qsTr("Absolute acceleration") ; checked: true }
   }
 
   CheckBox 
