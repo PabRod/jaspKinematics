@@ -32,7 +32,7 @@ ProcessTable <- function(jaspResults, dataset, options) {
 
     ## Append the output to the table in the desired format
     if (options$speedsAsVectors) {
-          stats$addColumnInfo(name = "vx")
+          stats$addColumnInfo(name = "vx", format = fmt)
           stats$addColumnInfo(name = "vy", format = fmt)
 
           stats[["vx"]] <- speeds$vx
@@ -40,7 +40,7 @@ ProcessTable <- function(jaspResults, dataset, options) {
     }
 
     if(options$speedsAsScalars) {
-      stats$addColumnInfo(name = "v")
+      stats$addColumnInfo(name = "v", format = fmt)
       stats[["v"]] <- sqrt(speeds$vx^2 + speeds$vy^2)
     }
 
@@ -53,14 +53,14 @@ ProcessTable <- function(jaspResults, dataset, options) {
     
     ## Append the output to the table in the desired format
     if(options$accelsAsVectors) {
-      stats$addColumnInfo(name = "ax")
-      stats$addColumnInfo(name = "ay")
+      stats$addColumnInfo(name = "ax", format = fmt)
+      stats$addColumnInfo(name = "ay", format = fmt)
 
       stats[["ax"]] <- accels$ax
       stats[["ay"]] <- accels$ay
     }
     if(options$accelsAsScalars) {
-      stats$addColumnInfo(name = "a")
+      stats$addColumnInfo(name = "a", format = fmt)
       stats[["a"]] <- sqrt(accels$ax^2 + accels$ay^2)
     }
   }
@@ -72,11 +72,11 @@ ProcessTable <- function(jaspResults, dataset, options) {
 
     ## Append accelerations to the table
     if (options$asCurvature) {
-      stats$addColumnInfo(name = "curvature")
+      stats$addColumnInfo(name = "curvature", format = fmt)
       stats[["curvature"]] <- curvs
     }
     if (options$asRadius) {
-      stats$addColumnInfo(name = "curvature_radius")
+      stats$addColumnInfo(name = "curvature_radius", format = fmt)
       stats[["curvature_radius"]] <- 1 / curvs
     }
   }
