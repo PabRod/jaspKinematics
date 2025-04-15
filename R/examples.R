@@ -1,6 +1,7 @@
 ProcessTable <- function(jaspResults, dataset, options) {
   # Extends the input with kinematical information
   stats <- createJaspTable(gettext("Extended kinematics table"))
+  stats$dependOn(c("t", "x", "y", "sf"))
 
   # Show the input as a table
   stats$addColumnInfo(name = "t")
@@ -23,7 +24,11 @@ ProcessTable <- function(jaspResults, dataset, options) {
 
   ## The user can input the number of significant figures to show
   ## this only has aesthetic effects and doesn't affect the calculations
-  fmt <- paste("sf:", options$sf, sep = "")
+  if (options$sf == 1) {
+    fmt <- "pc" # TODO: remove this, it is only here for debug purposes
+  } else {
+    fmt <- paste("sf:", options$sf, sep = "")
+  }
 
   # Speeds
   if (options$doSpeeds) {
