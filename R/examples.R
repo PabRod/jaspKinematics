@@ -1,7 +1,7 @@
 ProcessTable <- function(jaspResults, dataset, options) {
   # Only proceed when we have all the information we need
   # This avoids showing an ugly error message
-  ready <- TRUE #TODO: write the logic to make sure 
+  ready <- TRUE #TODO: write the logic to make sure
   #t, x and y have been provided
   if (!ready) return() # Continue only if ready
 
@@ -34,14 +34,14 @@ ProcessTable <- function(jaspResults, dataset, options) {
 
     ## Append the output to the table in the desired format
     if (options$speedsAsVectors) {
-          stats$addColumnInfo(name = "vx") # TODO: too many output decimals
+          stats$addColumnInfo(name = "vx")
           stats$addColumnInfo(name = "vy")
 
           stats[["vx"]] <- speeds$vx
           stats[["vy"]] <- speeds$vy
     }
 
-    if(options$speedsAsScalars) {
+    if (options$speedsAsScalars) {
       stats$addColumnInfo(name = "v")
       stats[["v"]] <- sqrt(speeds$vx^2 + speeds$vy^2)
     }
@@ -54,14 +54,14 @@ ProcessTable <- function(jaspResults, dataset, options) {
     accels <- do.call(kinematics::accel, args)
     
     ## Append the output to the table in the desired format
-    if(options$accelsAsVectors) {
+    if (options$accelsAsVectors) {
       stats$addColumnInfo(name = "ax")
       stats$addColumnInfo(name = "ay")
 
       stats[["ax"]] <- accels$ax
       stats[["ay"]] <- accels$ay
     }
-    if(options$accelsAsScalars) {
+    if (options$accelsAsScalars) {
       stats$addColumnInfo(name = "a")
       stats[["a"]] <- sqrt(accels$ax^2 + accels$ay^2)
     }

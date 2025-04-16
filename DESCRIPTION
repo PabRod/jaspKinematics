@@ -1,9 +1,9 @@
 Package: jaspKinematics
 Type: Package
-Title: A module for JASP
-Version: 0.1.0
-Date: 2020-10-15
-Author: JASP Team
+Title: Movement analysis with JASP
+Version: 0.9.0
+Date: 2025-04-16
+Author: Pablo Rodríguez
 Website: jasp-stats.org
 Maintainer: JASP Team <info@jasp-stats.org>
 Description: Movement analysis with JASP.
