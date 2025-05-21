@@ -13,7 +13,8 @@ ProcessTable <- function(jaspResults, dataset, options) {
       {
         # We need at least 3 data points to compute accelerations
         ready_t <- length(dataset[, options$t]) >= 3
-        stats[["t"]] <- dataset[, options$t]
+        stats[["t"]] <- dataset[, options$t] # This allows to fill the table
+        # column by column, from left to right. Only intended for improving UX
 
         ready_x <- length(dataset[, options$x]) >= 3
         stats[["x"]] <- dataset[, options$x]
