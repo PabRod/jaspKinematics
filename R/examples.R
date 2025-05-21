@@ -1,9 +1,26 @@
 ProcessTable <- function(jaspResults, dataset, options) {
+
+  # Very basic ready logic
+  .ready <- function(dataset, options) {
+    tryCatch(
+      {
+        # We need at least 3 data points to compute accelerations
+        ready_t <- length(dataset[, options$t]) >= 3
+        ready_x <- length(dataset[, options$x]) >= 3
+        ready_y <- length(dataset[, options$y]) >= 3
+
+        ready <- all(c(ready_t, ready_x, ready_y))
+        return(ready)
+      },
+      error = function(e) {
+        return(FALSE)
+      }
+    )
+  }
+
   # Only proceed when we have all the information we need
   # This avoids showing an ugly error message
-  ready <- TRUE #TODO: write the logic to make sure
-  #t, x and y have been provided
-  if (!ready) return() # Continue only if ready
+  if (!.ready(dataset, options)) return()
 
   # Extend the input with kinematical information
   stats <- createJaspTable(gettext("Extended kinematics table"))
@@ -52,7 +69,7 @@ ProcessTable <- function(jaspResults, dataset, options) {
   if (options$doAccels) {
     ## Use kinematics to calculate accelerations
     accels <- do.call(kinematics::accel, args)
-    
+
     ## Append the output to the table in the desired format
     if (options$accelsAsVectors) {
       stats$addColumnInfo(name = "ax")
