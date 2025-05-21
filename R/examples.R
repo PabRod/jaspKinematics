@@ -7,24 +7,16 @@ ProcessTable <- function(jaspResults, dataset, options) {
   stats$addColumnInfo(name = "y")
   jaspResults[["stats"]] <- stats
 
-  # Very basic ready logic
-  .ready <- function(dataset, options) {
+  # Basic ready logic
+  .ready <- function(id) {
     tryCatch(
       {
         # We need at least 3 data points to compute accelerations
-        ready_t <- length(dataset[, options$t]) >= 3
-        stats[["t"]] <- dataset[, options$t] # This allows to fill the table
-        # column by column, from left to right. Only intended for improving UX
+        ready <- length(dataset[, options[[id]]]) >= 3
+        stats[[id]] <- dataset[, options[[id]]] # This allows to fill the table
+        # column by column. Only intended for improving UX
 
-        ready_x <- length(dataset[, options$x]) >= 3
-        stats[["x"]] <- dataset[, options$x]
-
-        ready_y <- length(dataset[, options$y]) >= 3
-        stats[["y"]] <- dataset[, options$y]
-
-        ready <- all(c(ready_t, ready_x, ready_y))
-
-        return(ready)
+        return(TRUE)
       },
       error = function(e) {
         return(FALSE)
@@ -34,7 +26,8 @@ ProcessTable <- function(jaspResults, dataset, options) {
 
   # Only proceed when we have all the information we need
   # This avoids showing an ugly error message
-  if (!.ready(dataset, options)) return()
+  ready_all <- .ready("t") & .ready("x") & .ready("y")
+  if (!ready_all) return()
 
   ## All functions in kinematics have the very same arguments.
   ## Let's collect them on a list:
