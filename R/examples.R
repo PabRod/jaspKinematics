@@ -1,15 +1,28 @@
 ProcessTable <- function(jaspResults, dataset, options) {
 
+  # Show an empty input table, to be filled soon
+  stats <- createJaspTable(gettext("Extended kinematics table"))
+  stats$addColumnInfo(name = "t")
+  stats$addColumnInfo(name = "x")
+  stats$addColumnInfo(name = "y")
+  jaspResults[["stats"]] <- stats
+
   # Very basic ready logic
   .ready <- function(dataset, options) {
     tryCatch(
       {
         # We need at least 3 data points to compute accelerations
         ready_t <- length(dataset[, options$t]) >= 3
+        stats[["t"]] <- dataset[, options$t]
+
         ready_x <- length(dataset[, options$x]) >= 3
+        stats[["x"]] <- dataset[, options$x]
+
         ready_y <- length(dataset[, options$y]) >= 3
+        stats[["y"]] <- dataset[, options$y]
 
         ready <- all(c(ready_t, ready_x, ready_y))
+
         return(ready)
       },
       error = function(e) {
@@ -21,18 +34,6 @@ ProcessTable <- function(jaspResults, dataset, options) {
   # Only proceed when we have all the information we need
   # This avoids showing an ugly error message
   if (!.ready(dataset, options)) return()
-
-  # Extend the input with kinematical information
-  stats <- createJaspTable(gettext("Extended kinematics table"))
-
-  # Show the input as a table
-  stats$addColumnInfo(name = "t")
-  stats$addColumnInfo(name = "x")
-  stats$addColumnInfo(name = "y")
-
-  stats[["t"]] <- dataset[, options$t]
-  stats[["x"]] <- dataset[, options$x]
-  stats[["y"]] <- dataset[, options$y]
 
   ## All functions in kinematics have the very same arguments.
   ## Let's collect them on a list:
