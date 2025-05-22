@@ -1,35 +1,48 @@
 ProcessTable <- function(jaspResults, dataset, options) {
 
-  # Show an empty input table, to be filled soon
+  # Create and show an empty input table. It will be filled soon
   stats <- createJaspTable(gettext("Extended kinematics table"))
   stats$addColumnInfo(name = "t")
   stats$addColumnInfo(name = "x")
   stats$addColumnInfo(name = "y")
   jaspResults[["stats"]] <- stats
 
-  # Basic ready logic
+  # Basic input logic
+  # Used for appending the t, x and y vectors to the stats object.
+  #
+  # Returns TRUE at success, FALSE otherwise
   .ready <- function(id) {
     tryCatch(
       {
         # We need at least 3 data points to compute accelerations
         ready <- length(dataset[, options[[id]]]) >= 3
         stats[[id]] <- dataset[, options[[id]]] # This allows to fill the table
-        # column by column. Only intended for improving UX
+        # column by column. Only intended for improving user experience
 
         return(TRUE)
       },
       error = function(e) {
         return(FALSE)
+
+        # This error is typically triggered by:
+        #
+        # 1. Undefined vectors (i.e: unexistent dataset[, options[[id]])
+        # 2. Too short vectors
+        #
+        # Scenario 1 will ALWAYS happen during data input until all data has
+        # been added. We want to return a FALSE control parameter without
+        # crashing the whole program.
       }
     )
   }
 
-  # Only proceed when we have all the information we need
-  # This avoids showing an ugly error message
+  # Is all the required data available?
   ready_all <- .ready("t") & .ready("x") & .ready("y")
+  # If the answer is no, stop right here, keep waiting, and avoid ugly error messages
   if (!ready_all) return()
+  # If the answer is yes, keep going
 
-  ## All functions in kinematics have the very same arguments.
+  ## All functions in kinematics have the very same arguments, namely t, x, y.
   ## Let's collect them on a list:
   args <- list(
     dataset[, options$t],
@@ -44,7 +57,7 @@ ProcessTable <- function(jaspResults, dataset, options) {
     ## Use kinematics to calculate speeds
     speeds <- do.call(kinematics::speed, args)
 
-    ## Append the output to the table in the desired format
+    ## Append the output to the table in the desired format(s)
     if (options$speedsAsVectors) {
           stats$addColumnInfo(name = "vx")
           stats$addColumnInfo(name = "vy")
@@ -65,7 +78,7 @@ ProcessTable <- function(jaspResults, dataset, options) {
     ## Use kinematics to calculate accelerations
     accels <- do.call(kinematics::accel, args)
 
-    ## Append the output to the table in the desired format
+    ## Append the output to the table in the desired format(s)
     if (options$accelsAsVectors) {
       stats$addColumnInfo(name = "ax")
       stats$addColumnInfo(name = "ay")
@@ -84,7 +97,7 @@ ProcessTable <- function(jaspResults, dataset, options) {
     ## Use kinematics to calculate curvatures
     curvs <- do.call(kinematics::curvature, args)
 
-    ## Append accelerations to the table
+    ## Append the output to the table in the desired format(s)
     if (options$asCurvature) {
       stats$addColumnInfo(name = "curvature")
       stats[["curvature"]] <- curvs
@@ -95,8 +108,8 @@ ProcessTable <- function(jaspResults, dataset, options) {
     }
   }
 
+  # Refresh results table
   jaspResults[["stats"]] <- stats
-
   jaspResults$addCitation("Results table created using kinematics. (https://github.com/PabRod/kinematics)")
 
   return()
