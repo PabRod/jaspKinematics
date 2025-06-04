@@ -2,6 +2,7 @@ ProcessTable <- function(jaspResults, dataset, options) {
 
   # Create and show an empty input table. It will be filled soon
   stats <- createJaspTable(gettext("Extended kinematics table"))
+  jaspResults$addCitation("Results table created using kinematics. (https://github.com/PabRod/kinematics)")
   stats$addColumnInfo(name = "t")
   stats$addColumnInfo(name = "x")
   stats$addColumnInfo(name = "y")
@@ -26,7 +27,7 @@ ProcessTable <- function(jaspResults, dataset, options) {
 
         # This error is typically triggered by:
         #
-        # 1. Undefined vectors (i.e: unexistent dataset[, options[[id]])
+        # 1. Undefined vectors (i.e: inexistent dataset[, options[[id]])
         # 2. Too short vectors
         #
         # Scenario 1 will ALWAYS happen during data input until all data has
@@ -52,8 +53,22 @@ ProcessTable <- function(jaspResults, dataset, options) {
   ## So we can pass them to the functions using the one-liner
   ## do.call(<function>, args)
 
-  # Speeds
-  if (options$doSpeeds) {
+  # Append the desired kinematic information to the stats table
+  ## Speeds
+  if (options$doSpeeds)     stats <- .speeds(stats, args, options)
+  ## Accelerations
+  if (options$doAccels)     stats <- .accels(stats, args, options)
+  ## Curvatures
+  if (options$doCurvatures) stats <- .curvs(stats, args, options)
+
+  # Refresh results table
+  jaspResults[["stats"]] <- stats
+
+  return()
+}
+
+## Auxiliary function to append speeds to stats
+.speeds <- function(stats, args, options) {
     ## Use kinematics to calculate speeds
     speeds <- do.call(kinematics::speed, args)
 
@@ -71,11 +86,12 @@ ProcessTable <- function(jaspResults, dataset, options) {
       stats[["v"]] <- sqrt(speeds$vx^2 + speeds$vy^2)
     }
 
-  }
+    return(stats)
+}
 
-  # Accelerations
-  if (options$doAccels) {
-    ## Use kinematics to calculate accelerations
+## Auxiliary function to append accelerations to stats
+.accels <- function(stats, args, options) {
+      ## Use kinematics to calculate accelerations
     accels <- do.call(kinematics::accel, args)
 
     ## Append the output to the table in the desired format(s)
@@ -90,10 +106,12 @@ ProcessTable <- function(jaspResults, dataset, options) {
       stats$addColumnInfo(name = "a")
       stats[["a"]] <- sqrt(accels$ax^2 + accels$ay^2)
     }
-  }
 
-  # Curvature
-  if (options$doCurvatures) {
+    return(stats)
+}
+
+## Auxiliary function to append curvatures to stats
+.curvs <- function(stats, args, options) {
     ## Use kinematics to calculate curvatures
     curvs <- do.call(kinematics::curvature, args)
 
@@ -106,12 +124,6 @@ ProcessTable <- function(jaspResults, dataset, options) {
       stats$addColumnInfo(name = "curvature_radius")
       stats[["curvature_radius"]] <- 1 / curvs
     }
-  }
 
-  # Refresh results table
-  jaspResults[["stats"]] <- stats
-  jaspResults$addCitation("Results table created using kinematics. (https://github.com/PabRod/kinematics)")
-
-  return()
-
+    return(stats)
 }
